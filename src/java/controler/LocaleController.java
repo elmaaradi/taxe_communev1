@@ -91,6 +91,7 @@ public class LocaleController implements Serializable {
     }
 
     public void create() {
+        getFacade().generateReference(selected.getRue(), selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LocaleCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -122,11 +123,11 @@ public class LocaleController implements Serializable {
             try {
                 if (null != persistAction) switch (persistAction) {
                     case CREATE:
-                        if(getFacade().findByReference(selected).get(0)==null){
+//                        if(getFacade().findByReference(selected).get(0)==null){
                             getFacade().edit(selected);
-                        }else{
-                            JsfUtil.addErrorMessage("Locale existe deja dans la base avec ce Reference !!");
-                        }
+//                        }else{
+                            JsfUtil.addSuccessMessage("Locale bien crée");
+//                        }
                         break;
                     case UPDATE:
                         getFacade().edit(selected);

@@ -5,9 +5,14 @@
  */
 package service;
 
+import bean.AnnexeAdministratif;
 import bean.Locale;
+import bean.Quartier;
 import bean.Redevable;
+import bean.Rue;
+import bean.Secteur;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +23,13 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class LocaleFacade extends AbstractFacade<Locale> {
+    @EJB
+    private QuartierFacade quartierFacade;
+    @EJB
+    private AnnexeAdministratifFacade annexeAdministratifFacade;
+    @EJB
+    private SecteurFacade secteurFacade;
+    
 
     @PersistenceContext(unitName = "projet_java_taxPU")
     private EntityManager em;
@@ -41,6 +53,12 @@ public class LocaleFacade extends AbstractFacade<Locale> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    public void generateReference(Rue rue,Locale locale){
+        Quartier quartier=quartierFacade.find(rue.getQuartier().getId());
+        AnnexeAdministratif annexeAdministratif=annexeAdministratifFacade.find(quartier.getAnnexeAdministratif().getId());
+        Secteur secteur=secteurFacade.find(annexeAdministratif.getSecteur().getId());
+        locale.setReference(rue.getNumAbreviation()+"-"+quartier.getNumAbreviation()+"-"+annexeAdministratif.getAbreviation()+"-"+secteur.getAbreviation());
     }
 
     public LocaleFacade() {
