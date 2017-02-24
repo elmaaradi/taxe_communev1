@@ -74,9 +74,7 @@
                             <f:selectItems value="#{redevableController.itemsAvailableSelectOne}"
                                            var="gerantItem"
                                            itemValue="#{gerantItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateLocaleLabel_reference}" for="reference" />
-                        <p:inputText id="reference" value="#{localeController.selected.reference}" title="#{bundle.CreateLocaleTitle_reference}" />
+                        </p:selectOneMenu>                        
                     </p:panelGrid>
                     <p:commandButton actionListener="#{localeController.create}" value="#{bundle.Save}" update="display,:LocaleListForm:datalist,:growl" oncomplete="handleSubmit(args,'LocaleCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="LocaleCreateDialog.hide()"/>
